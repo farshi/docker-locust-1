@@ -105,7 +105,7 @@ EOF
         (export TARGET_HOST=$TARGET && export LOCUST_FILE=$FILE && export SLAVE_NUM=$SLAVE && export OAUTH=$OAUTH &&
         export TOKEN_URL=$TOKEN_URL && export OAUTH_SCOPE=$OAUTH_SCOPE && export AUTOMATIC=$AUTOMATIC &&
         export USERS=$USERS && export HATCH_RATE=$HATCH_RATE && export DURATION=$DURATION &&
-        ecs-cli compose --file docker-compose.yaml up)
+        ecs-cli compose --file ecs.yaml )
             
     fi
 
