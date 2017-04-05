@@ -59,6 +59,12 @@ EOF
         TYPE=$4
     fi
 
+    if [ -z "$5" ]; then
+        read -p "Run on ECS: " ECS
+    else
+        ECS=$5
+    fi
+
     if [[ "$TYPE" =~ ^(automatic|Automatic|auto)$ ]]; then
         read -p "Number of users [total users that will be simulated]: " USERS
         read -p "Hatch rate [number of user will be added per second]: " HATCH_RATE
@@ -94,6 +100,15 @@ EOF
     export TOKEN_URL=$TOKEN_URL && export OAUTH_SCOPE=$OAUTH_SCOPE && export AUTOMATIC=$AUTOMATIC &&
     export USERS=$USERS && export HATCH_RATE=$HATCH_RATE && export DURATION=$DURATION &&
     docker-compose build && docker-compose up -d)
+
+    if [[ "$ECS" =~ ^(ecs|ECS)$ ]]; then
+        (export TARGET_HOST=$TARGET && export LOCUST_FILE=$FILE && export SLAVE_NUM=$SLAVE && export OAUTH=$OAUTH &&
+        export TOKEN_URL=$TOKEN_URL && export OAUTH_SCOPE=$OAUTH_SCOPE && export AUTOMATIC=$AUTOMATIC &&
+        export USERS=$USERS && export HATCH_RATE=$HATCH_RATE && export DURATION=$DURATION &&
+        ecs-cli compose --file hello-world.yml up)
+            
+    fi
+
 
     echo "Locust application is successfully deployed. you can access http://<your-docker-machine-ip-address>:8089"
 
